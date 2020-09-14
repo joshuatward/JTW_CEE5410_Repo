@@ -1,0 +1,61 @@
+
+--- Job Ex2-1_Labor.gms Start 09/14/20 13:04:51 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\32\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GAMS Demo\Ex2-1_Labor.gms"
+    PageWidth 80
+    PageSize 0
+    PageContr 3
+    Action CE
+    ScrDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GAMS Demo\225a\"
+    SysDir C:\GAMS\32\
+    WorkDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GAMS Demo\"
+    LogOption 3
+    DFormat 0
+    TFormat 0
+    ErrorLog 99
+    IDE 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G200622/0001AP-GEN
+          Utah State University, Utah Water Research Laboratory      DC7087
+          C:\GAMS\32\gamslice.txt
+--- Starting compilation
+--- Ex2-1_Labor.gms(76) 3 Mb
+--- Starting execution: elapsed 0:00:00.045
+--- Generating LP model PLANTING
+--- Ex2-1_Labor.gms(74) 4 Mb
+---   4 rows  3 columns  9 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.169
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 0
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+Tried aggregator 1 time.
+LP Presolve eliminated 1 rows and 1 columns.
+Reduced LP has 3 rows, 2 columns, and 6 nonzeros.
+Presolve time = 0.02 sec. (0.00 ticks)
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1 sI            0.000000            X(Tomatoes)RES_CONSTRAIN(Lab slack
+     2           22333.333333            X(Eggplant)RES_CONSTRAIN(Wat slack
+     3           20000.000000RES_CONSTRAIN(Lab slackRES_CONSTRAIN(Lan slack
+LP status(1): optimal
+Cplex Time: 0.02sec (det. 0.01 ticks)
+
+Optimal solution found.
+Objective :       20000.000000
+
+--- Reading solution for model PLANTING
+*** Status: Normal completion
+--- Job Ex2-1_Labor.gms Stop 09/14/20 13:04:52 elapsed 0:00:00.408
