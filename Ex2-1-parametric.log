@@ -1,0 +1,172 @@
+
+--- Job Ex2-1-parametric.gms Start 09/23/20 09:20:16 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\32\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\Ex2-1-parametric.gms"
+    PageWidth 80
+    PageSize 0
+    PageContr 3
+    Action CE
+    ScrDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\225a\"
+    SysDir C:\GAMS\32\
+    WorkDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\"
+    LogOption 3
+    DFormat 0
+    TFormat 0
+    ErrorLog 99
+    IDE 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G200622/0001AP-GEN
+          Utah State University, Utah Water Research Laboratory      DC7087
+          C:\GAMS\32\gamslice.txt
+--- Starting compilation
+--- Ex2-1-parametric.gms(130) 3 Mb
+--- Starting execution: elapsed 0:00:00.124
+--- Ex2-1-parametric.gms(102) 4 Mb
+--- Generating LP model PLANTING
+--- Ex2-1-parametric.gms(110) 4 Mb
+--- LOOPS runs = r1
+---   4 rows  3 columns  9 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.256
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 0
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+Tried aggregator 1 time.
+LP Presolve eliminated 1 rows and 1 columns.
+Reduced LP has 3 rows, 2 columns, and 6 nonzeros.
+Presolve time = 0.00 sec. (0.00 ticks)
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1 sI            0.000000            X(Tomatoes)RES_CONSTRAIN(Lab slack
+     2           22333.333333            X(Eggplant)RES_CONSTRAIN(Wat slack
+     3           20000.000000RES_CONSTRAIN(Lab slackRES_CONSTRAIN(Lan slack
+LP status(1): optimal
+Cplex Time: 0.06sec (det. 0.01 ticks)
+
+Optimal solution found.
+Objective :       20000.000000
+
+--- Reading solution for model PLANTING
+--- Executing after solve: elapsed 0:00:00.502
+--- Ex2-1-parametric.gms(102) 4 Mb
+--- Generating LP model PLANTING
+--- Ex2-1-parametric.gms(110) 4 Mb
+--- LOOPS runs = r2
+---   4 rows  3 columns  9 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.526
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 2
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+Tried aggregator 1 time.
+LP Presolve eliminated 1 rows and 1 columns.
+Reduced LP has 3 rows, 2 columns, and 6 nonzeros.
+Presolve time = 0.03 sec. (0.00 ticks)
+Using devex.
+LP status(1): optimal
+Cplex Time: 0.06sec (det. 0.01 ticks)
+
+Optimal solution found.
+Objective :       21333.333333
+
+--- Reading solution for model PLANTING
+--- Executing after solve: elapsed 0:00:00.658
+--- Ex2-1-parametric.gms(102) 4 Mb
+--- Generating LP model PLANTING
+--- Ex2-1-parametric.gms(110) 4 Mb
+--- LOOPS runs = r3
+---   4 rows  3 columns  9 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.682
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 2
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+Tried aggregator 1 time.
+LP Presolve eliminated 1 rows and 1 columns.
+Reduced LP has 3 rows, 2 columns, and 6 nonzeros.
+Presolve time = 0.05 sec. (0.00 ticks)
+Using devex.
+LP status(1): optimal
+Cplex Time: 0.05sec (det. 0.01 ticks)
+
+Optimal solution found.
+Objective :       28000.000000
+
+--- Reading solution for model PLANTING
+--- Executing after solve: elapsed 0:00:00.807
+--- Ex2-1-parametric.gms(102) 4 Mb
+--- Generating LP model PLANTING
+--- Ex2-1-parametric.gms(110) 4 Mb
+--- LOOPS runs = r4
+---   4 rows  3 columns  9 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.830
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 2
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+Tried aggregator 1 time.
+LP Presolve eliminated 2 rows and 1 columns.
+Reduced LP has 2 rows, 2 columns, and 4 nonzeros.
+Presolve time = 0.03 sec. (0.00 ticks)
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1  I            0.000000            X(Tomatoes)RES_CONSTRAIN(Lab slack
+     2           28000.000000RES_CONSTRAIN(Lab slackRES_CONSTRAIN(Lan slack
+LP status(1): optimal
+Cplex Time: 0.03sec (det. 0.01 ticks)
+
+Optimal solution found.
+Objective :       28000.000000
+
+--- Reading solution for model PLANTING
+--- Executing after solve: elapsed 0:00:00.921
+--- Ex2-1-parametric.gms(128) 4 Mb
+--- GDX File C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Ex2-1-parametric.gdx
+--- Ex2-1-parametric.gms(130) 4 Mb
+GDX2XLS          32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+Output file: C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Ex2-1-parametric.xlsx
+*** Status: Normal completion
+--- Ex2-1-parametric.gms(130) 4 Mb  10 secs
+--- Job Ex2-1-parametric.gms Stop 09/23/20 09:20:27 elapsed 0:00:11.484
