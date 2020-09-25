@@ -27,16 +27,16 @@ VIrr - Volume diverted to irrigated farmland (Units), for all t
 VRiver - Volume over the course of each month left in the river (Units), for all t
 
 Objective Function
-Total benefits TB = SUM(
+Maximize benefits derived from hydropower and irrigation
 
 
 THE SOLUTION:
 Uses General Algebraic Modeling System to Solve this Linear Program
 
 Joshua T Ward
-joshua.ward@usu.edu
+joshua.timothy.ward@aggiemail.usu.edu / joshua.ward@usu.edu
 
-September 21, 2020
+September 25, 2020
 $offtext
 
 
@@ -48,13 +48,66 @@ SETS L Water allocation locations in reservoir system
 
 *Define the parameters and coefficients
 PARAMETERS
+         I(t) Inflow values in each month t (units of water)
+         /M1 2, M2 2, M3 3, M4 4, M5 3, M6 2/;
 
-TABLE
-     benefits(L, t) Benefits produced at location L in month t
+
+TABLE c(L, t) Objective function coefficients at location L in month t ($ per unit)
          M1      M2      M3      M4      M5      M6
 hyd      1.6     1.7     1.8     1.9     2.0     2.0
-irr      1.0     1.2     1.9     2.0     2.2     2.2
+irr      1.0     1.2     1.9     2.0     2.2     2.2 ;
 
+VARIABLES X(L, t) water allocations by site and month (units of water)
+          VPROFIT total profit ($);
+
+* Define the bounds of the constraint inequalities
+SCALAR
+         BEG_STO Beginning reservoir storage at start of model period (units of water) / 5 /
+         RES_MAX Maximum reservoir capacity (units of water) / 9 /
+         TUR_MAX Maximum flow through the turbines (units of water) / 4 /
+         RIV_MIN Minimum flow required in the river after diversion point B (units of water) / 1 /;
+
+*Define non-negativity constraints on the variables
+POSITIVE VARIABLES X;
+
+$ontext
+
+
+$offtext
+EQUATIONS
+         PROFIT Total profit ($) and objective function value
+
+         IRES_MASSBAL Initial reservoir mass balance (units of water)
+         RESERVE_MASSBAL(t) Reservoir mass balance (units of water)
+         DIVERT_MASSBAL(t) Mass balance at diversion point B (units of water)
+         FLOW_RIVER(t) Minimum flow requirement in river (units of water)
+         RESERVE_STORAGE(t) Reservoir net change in storage (units of water)
+         TURBINE_CAP(t) Hydropower capacity of reservoir turbines (units of water)
+         RESERVE_CAP(t) Reservoir capacity (units of water);
+
+* Build the constraint equations
+
+IRES_MASSBAL..                           BEG_STO+I("M1")-X("sp","M1")-X("hyd","M1") =E= X("res","M1");
+RESERVE_MASSBAL(t)$(ORD(t) ge 2 )..      I(t)+X("res",t-1)-X("sp",t)-X("hyd", t) =E= X("res",t);
+DIVERT_MASSBAL(t) ..                     X("hyd",t)+X("sp",t)-X("irr",t)-X("riv",t) =E= 0;
+FLOW_RIVER(t) ..                         X("riv",t) =G= RIV_MIN;
+RESERVE_STORAGE(t) ..                    X("res","M6") =G= BEG_STO;
+TURBINE_CAP(t) ..                        X("hyd", t) =L= TUR_MAX;
+RESERVE_CAP(t) ..                        X("res",t) =L= RES_MAX;
+
+* Build the objective function
+PROFIT..                     VPROFIT =E= SUM(t, c("hyd",t)*X("hyd",t)+c("irr",t)*X("irr",t)) ;
+
+* Include all equations in the model
+MODEL RES /ALL/;
+
+* Solve the model
+SOLVE RES USING LP MAXIMIZING VPROFIT;
+
+DISPLAY rhsrng FLOW_RIVER;
+
+* Save a gdx file for easier viewing of the tables
+EXECUTE_UNLOAD "JTW_HW4.gdx";
 
 
 

@@ -1,0 +1,99 @@
+
+--- Job Ex6-3-integer.gms Start 09/25/20 13:21:04 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\32\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\Ex6-3-integer.gms"
+    PageWidth 80
+    PageSize 0
+    PageContr 3
+    Action CE
+    ScrDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\225a\"
+    SysDir C:\GAMS\32\
+    WorkDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\"
+    LogOption 3
+    DFormat 0
+    TFormat 0
+    ErrorLog 99
+    IDE 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G200622/0001AP-GEN
+          Utah State University, Utah Water Research Laboratory      DC7087
+          C:\GAMS\32\gamslice.txt
+--- Starting compilation
+--- Ex6-3-integer.gms(80) 3 Mb
+--- Starting execution: elapsed 0:00:00.077
+--- Generating MIP model WatSupplyRelaxed
+--- Ex6-3-integer.gms(73) 4 Mb
+---   10 rows  5 columns  18 non-zeroes
+---   2 discrete-columns
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.127
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 0
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+CPXPARAM_WorkDir                                 "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\225a\"
+Found incumbent of value 2165000.000000 after 0.00 sec. (0.00 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 10 rows and 5 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.01 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.00 sec. (0.01 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.00 sec. (0.01 ticks)
+MIP status(101): integer optimal solution
+Cplex Time: 0.03sec (det. 0.01 ticks)
+Fixing integer variables, and solving final LP...
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 2
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+CPXPARAM_MIP_Display                             4
+CPXPARAM_MIP_Tolerances_AbsMIPGap                0
+CPXPARAM_WorkDir                                 "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\225a\"
+Tried aggregator 1 time.
+LP Presolve eliminated 9 rows and 3 columns.
+Reduced LP has 1 rows, 2 columns, and 2 nonzeros.
+Presolve time = 0.00 sec. (0.00 ticks)
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1          395000.000000                  X(tp)       MeetDemand slack
+Fixed MIP status(1): optimal
+Cplex Time: 0.02sec (det. 0.01 ticks)
+
+Proven optimal solution.
+
+MIP Solution:       395000.000000    (0 iterations, 0 nodes)
+Final Solve:        395000.000000    (1 iterations)
+
+Best possible:      395000.000000
+Absolute gap:            0.000000
+Relative gap:            0.000000
+
+--- Reading solution for model WatSupplyRelaxed
+--- Executing after solve: elapsed 0:00:00.234
+--- Ex6-3-integer.gms(78) 4 Mb
+--- GDX File C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\Ex6-3-integer.gdx
+--- Ex6-3-integer.gms(80) 4 Mb
+GDX2XLS          32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+Output file: C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\Ex6-3-integer.xlsx
+(Created backup file)
+*** Status: Normal completion
+--- Job Ex6-3-integer.gms Stop 09/25/20 13:21:13 elapsed 0:00:08.209

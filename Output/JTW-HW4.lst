@@ -1,0 +1,533 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+      CEE 5410 - Water Resources Systems Analysis
+      Reservoir Optimazation problem for HW4
+       
+      THE PROBLEM:
+       
+      A reservoir must maintain 5 units of water of storage at the end
+      of an irrigation period. A water manager must decide how much to release t
+      hrough
+      the turbines, how much to retain in the reservoir, and how much to irrigat
+      e a
+      large area of farmland while maintaining a flow of 1 unit in the river at 
+      the
+      end of the system. Data are as follows:
+       
+      Month    Inflow Units    Hydro Benefits ($/unit) Irr. Benefits ($/Unit)
+      1        2               1.6                     1.0
+      2        2               1.7                     1.2
+      3        3               1.8                     1.9
+      4        4               1.9                     2.0
+      5        5               2.0                     2.2
+      5        6               2.0                     2.2
+       
+      The optimization depends on both the storage location and time (month scal
+      e)
+      Decision Variables
+      VRes(t) - Storage volume of the reservoir (Units), for all t
+      VSpill - Volume released via the spillway (Units), for all t
+      VTurb - Volume released via the hydropower turbines (Units), for all t
+      VIrr - Volume diverted to irrigated farmland (Units), for all t
+      VRiver - Volume over the course of each month left in the river (Units), f
+      or all t
+       
+      Objective Function
+      Maximize benefits derived from hydropower and irrigation
+       
+       
+      THE SOLUTION:
+      Uses General Algebraic Modeling System to Solve this Linear Program
+       
+      Joshua T Ward
+      joshua.timothy.ward@aggiemail.usu.edu / joshua.ward@usu.edu
+       
+      September 25, 2020
+  41   
+  42   
+  43  *Define the sets containing decision variables and resource constraints
+  44  SETS L Water allocation locations in reservoir system
+  45           /res "Reservoir", sp "Spillway", hyd "Hydropower", irr "Irrigatio
+      n", riv "River"/
+  46       t Month of period of interest
+  47           /M1, M2, M3, M4, M5, M6/;
+  48   
+  49  *Define the parameters and coefficients
+  50  PARAMETERS
+  51           I(t) Inflow values in each month t (units of water)
+  52           /M1 2, M2 2, M3 3, M4 4, M5 3, M6 2/;
+  53   
+  54   
+  55  TABLE c(L, t) Objective function coefficients at location L in month t ($ 
+      per unit)
+  56           M1      M2      M3      M4      M5      M6
+  57  hyd      1.6     1.7     1.8     1.9     2.0     2.0
+  58  irr      1.0     1.2     1.9     2.0     2.2     2.2 ;
+  59   
+  60  VARIABLES X(L, t) water allocations by site and month (units of water)
+  61            VPROFIT total profit ($);
+  62   
+  63  * Define the bounds of the constraint inequalities
+  64  SCALAR
+  65           BEG_STO Beginning reservoir storage at start of model period (uni
+      ts of water) / 5 /
+  66           RES_MAX Maximum reservoir capacity (units of water) / 9 /
+  67           TUR_MAX Maximum flow through the turbines (units of water) / 4 /
+  68           RIV_MIN Minimum flow required in the river after diversion point 
+      B (units of water) / 1 /;
+  69   
+  70  *Define non-negativity constraints on the variables
+  71  POSITIVE VARIABLES X;
+  72   
+       
+       
+  77  EQUATIONS
+  78           PROFIT Total profit ($) and objective function value
+  79   
+  80           IRES_MASSBAL Initial reservoir mass balance (units of water)
+  81           RESERVE_MASSBAL(t) Reservoir mass balance (units of water)
+  82           DIVERT_MASSBAL(t) Mass balance at diversion point B (units of wat
+      er)
+  83           FLOW_RIVER(t) Minimum flow requirement in river (units of water)
+  84           RESERVE_STORAGE(t) Reservoir net change in storage (units of wate
+      r)
+  85           TURBINE_CAP(t) Hydropower capacity of reservoir turbines (units o
+      f water)
+  86           RESERVE_CAP(t) Reservoir capacity (units of water);
+  87   
+  88  * Build the constraint equations
+  89   
+  90  IRES_MASSBAL..                           BEG_STO+I("M1")-X("sp","M1")-X("h
+      yd","M1") =E= X("res","M1");
+  91  RESERVE_MASSBAL(t)$(ORD(t) ge 2 )..      I(t)+X("res",t-1)-X("sp",t)-X("hy
+      d", t) =E= X("res",t);
+  92  DIVERT_MASSBAL(t) ..                     X("hyd",t)+X("sp",t)-X("irr",t)-X
+      ("riv",t) =E= 0;
+  93  FLOW_RIVER(t) ..                         X("riv",t) =G= RIV_MIN;
+  94  RESERVE_STORAGE(t) ..                    X("res","M6") =G= BEG_STO;
+  95  TURBINE_CAP(t) ..                        X("hyd", t) =L= TUR_MAX;
+  96  RESERVE_CAP(t) ..                        X("res",t) =L= RES_MAX;
+  97   
+  98  * Build the objective function
+  99  PROFIT..                     VPROFIT =E= SUM(t, c("hyd",t)*X("hyd",t)+c("i
+      rr",t)*X("irr",t)) ;
+ 100   
+ 101  * Include all equations in the model
+ 102  MODEL RES /ALL/;
+ 103   
+ 104  RES.OptFile=1;
+ 105  * Solve the model
+ 106  SOLVE RES USING LP MAXIMIZING VPROFIT;
+ 107   
+ 108  * Save a gdx file for easier viewing of the tables
+ 109  EXECUTE_UNLOAD "JTW_HW4.gdx";
+ 110   
+ 111   
+ 112   
+ 113   
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  32.2.0 rc62c018 WEX-WEI
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE RES Using LP From line 106
+
+
+---- PROFIT  =E=  Total profit ($) and objective function value
+
+PROFIT..  - 1.6*X(hyd,M1) - 1.7*X(hyd,M2) - 1.8*X(hyd,M3) - 1.9*X(hyd,M4)
+     
+      - 2*X(hyd,M5) - 2*X(hyd,M6) - X(irr,M1) - 1.2*X(irr,M2) - 1.9*X(irr,M3)
+     
+      - 2*X(irr,M4) - 2.2*X(irr,M5) - 2.2*X(irr,M6) + VPROFIT =E= 0 ; (LHS = 0)
+     
+
+---- IRES_MASSBAL  =E=  Initial reservoir mass balance (units of water)
+
+IRES_MASSBAL..  - X(res,M1) - X(sp,M1) - X(hyd,M1) =E= -7 ;
+     
+      (LHS = 0, INFES = 7 ****)
+     
+
+---- RESERVE_MASSBAL  =E=  Reservoir mass balance (units of water)
+
+RESERVE_MASSBAL(M2)..  X(res,M1) - X(res,M2) - X(sp,M2) - X(hyd,M2) =E= -2 ;
+     
+      (LHS = 0, INFES = 2 ****)
+     
+RESERVE_MASSBAL(M3)..  X(res,M2) - X(res,M3) - X(sp,M3) - X(hyd,M3) =E= -3 ;
+     
+      (LHS = 0, INFES = 3 ****)
+     
+RESERVE_MASSBAL(M4)..  X(res,M3) - X(res,M4) - X(sp,M4) - X(hyd,M4) =E= -4 ;
+     
+      (LHS = 0, INFES = 4 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- DIVERT_MASSBAL  =E=  Mass balance at diversion point B (units of water)
+
+DIVERT_MASSBAL(M1)..  X(sp,M1) + X(hyd,M1) - X(irr,M1) - X(riv,M1) =E= 0 ;
+     
+      (LHS = 0)
+     
+DIVERT_MASSBAL(M2)..  X(sp,M2) + X(hyd,M2) - X(irr,M2) - X(riv,M2) =E= 0 ;
+     
+      (LHS = 0)
+     
+DIVERT_MASSBAL(M3)..  X(sp,M3) + X(hyd,M3) - X(irr,M3) - X(riv,M3) =E= 0 ;
+     
+      (LHS = 0)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+
+---- FLOW_RIVER  =G=  Minimum flow requirement in river (units of water)
+
+FLOW_RIVER(M1)..  X(riv,M1) =G= 1 ; (LHS = 0, INFES = 1 ****)
+     
+FLOW_RIVER(M2)..  X(riv,M2) =G= 1 ; (LHS = 0, INFES = 1 ****)
+     
+FLOW_RIVER(M3)..  X(riv,M3) =G= 1 ; (LHS = 0, INFES = 1 ****)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+
+---- RESERVE_STORAGE  =G=  Reservoir net change in storage (units of water)
+
+RESERVE_STORAGE(M1)..  X(res,M6) =G= 5 ; (LHS = 0, INFES = 5 ****)
+     
+RESERVE_STORAGE(M2)..  X(res,M6) =G= 5 ; (LHS = 0, INFES = 5 ****)
+     
+RESERVE_STORAGE(M3)..  X(res,M6) =G= 5 ; (LHS = 0, INFES = 5 ****)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+
+---- TURBINE_CAP  =L=  Hydropower capacity of reservoir turbines (units of water
+                       )
+
+TURBINE_CAP(M1)..  X(hyd,M1) =L= 4 ; (LHS = 0)
+     
+TURBINE_CAP(M2)..  X(hyd,M2) =L= 4 ; (LHS = 0)
+     
+TURBINE_CAP(M3)..  X(hyd,M3) =L= 4 ; (LHS = 0)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+
+---- RESERVE_CAP  =L=  Reservoir capacity (units of water)
+
+RESERVE_CAP(M1)..  X(res,M1) =L= 9 ; (LHS = 0)
+     
+RESERVE_CAP(M2)..  X(res,M2) =L= 9 ; (LHS = 0)
+     
+RESERVE_CAP(M3)..  X(res,M3) =L= 9 ; (LHS = 0)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE RES Using LP From line 106
+
+
+---- X  water allocations by site and month (units of water)
+
+X(res,M1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       IRES_MASSBAL
+        1       RESERVE_MASSBAL(M2)
+        1       RESERVE_CAP(M1)
+
+X(res,M2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       RESERVE_MASSBAL(M2)
+        1       RESERVE_MASSBAL(M3)
+        1       RESERVE_CAP(M2)
+
+X(res,M3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       RESERVE_MASSBAL(M3)
+        1       RESERVE_MASSBAL(M4)
+        1       RESERVE_CAP(M3)
+
+REMAINING 27 ENTRIES SKIPPED
+
+---- VPROFIT  total profit ($)
+
+VPROFIT
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       PROFIT
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE RES Using LP From line 106
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           37
+BLOCKS OF VARIABLES           2     SINGLE VARIABLES           31
+NON ZERO ELEMENTS            84
+
+
+GENERATION TIME      =        0.047 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE RES Using LP From line 106
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   RES                 OBJECTIVE  VPROFIT
+     TYPE    LP                  DIRECTION  MAXIMIZE
+     SOLVER  CPLEX               FROM LINE  106
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE               51.6000
+
+ RESOURCE USAGE, LIMIT          0.031 10000000000.000
+ ITERATION COUNT, LIMIT        18    2147483647
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading parameter(s) from "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWor
+k\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\
+                                                               Output\cplex.opt"
+>>  objrng all
+>>  rhsrng all
+Finished reading from "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fa
+ll 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Outp
+                                                                   ut\cplex.opt"
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(1): optimal
+Cplex Time: 0.03sec (det. 0.06 ticks)
+Optimal solution found.
+Objective :          51.600000
+
+  
+ 
+EQUATION NAME                                 LOWER      CURRENT        UPPER
+-------------                                 -----      -------        -----
+PROFIT                                         -INF            0         +INF
+IRES_MASSBAL                                     -9           -7           -6
+RESERVE_MASSBAL(M2)                              -4           -2           -1
+RESERVE_MASSBAL(M3)                              -5           -3           -2
+RESERVE_MASSBAL(M4)                              -6           -4           -3
+RESERVE_MASSBAL(M5)                              -5           -3           -2
+RESERVE_MASSBAL(M6)                              -4           -2           -1
+DIVERT_MASSBAL(M1)                               -1            0            1
+DIVERT_MASSBAL(M2)                               -1            0            1
+DIVERT_MASSBAL(M3)                             -INF            0            1
+DIVERT_MASSBAL(M4)                             -INF            0            3
+DIVERT_MASSBAL(M5)                             -INF            0            3
+DIVERT_MASSBAL(M6)                             -INF            0            3
+FLOW_RIVER(M1)                                    0            1            2
+FLOW_RIVER(M2)                                    0            1            2
+FLOW_RIVER(M3)                                    0            1            2
+FLOW_RIVER(M4)                                    0            1            4
+FLOW_RIVER(M5)                                    0            1            4
+FLOW_RIVER(M6)                                    0            1            4
+RESERVE_STORAGE(M1)                               5            5            6
+RESERVE_STORAGE(M2)                            -INF            5            5
+RESERVE_STORAGE(M3)                            -INF            5            5
+RESERVE_STORAGE(M4)                            -INF            5            5
+RESERVE_STORAGE(M5)                            -INF            5            5
+RESERVE_STORAGE(M6)                            -INF            5            5
+TURBINE_CAP(M1)                                   1            4         +INF
+TURBINE_CAP(M2)                                   1            4         +INF
+TURBINE_CAP(M3)                                   2            4         +INF
+TURBINE_CAP(M4)                                   2            4            5
+TURBINE_CAP(M5)                                   2            4            5
+TURBINE_CAP(M6)                                   2            4            5
+RESERVE_CAP(M1)                                   6            9         +INF
+RESERVE_CAP(M2)                                   7            9         +INF
+RESERVE_CAP(M3)                                   8            9         +INF
+RESERVE_CAP(M4)                                   8            9         +INF
+RESERVE_CAP(M5)                                   7            9         +INF
+RESERVE_CAP(M6)                                   5            9         +INF
+  
+ 
+VARIABLE NAME                                 LOWER      CURRENT        UPPER
+-------------                                 -----      -------        -----
+X(res, M1)                                     -1.1           -0         +INF
+X(res, M2)                                     -0.8           -0         +INF
+X(res, M3)                                     -0.2           -0          1.5
+X(res, M4)                                     -0.5           -0          1.5
+X(res, M5)                                     -0.5           -0          1.5
+X(res, M6)                                     -INF           -0          3.7
+X(sp, M1)                                      -INF           -0          1.6
+X(sp, M2)                                      -INF           -0          1.7
+X(sp, M3)                                      -INF           -0          1.8
+X(sp, M4)                                      -INF           -0          1.7
+X(sp, M5)                                      -INF           -0          1.5
+X(sp, M6)                                      -INF           -0          1.5
+X(hyd, M1)                                        0          1.6          2.7
+X(hyd, M2)                                -2.22e-16          1.7          2.5
+X(hyd, M3)                                        1          1.8            2
+X(hyd, M4)                                      1.7          1.9         +INF
+X(hyd, M5)                                      1.5            2         +INF
+X(hyd, M6)                                      1.5            2         +INF
+X(irr, M1)                                     -INF            1          2.1
+X(irr, M2)                                     -INF          1.2            2
+X(irr, M3)                                      1.1          1.9          2.1
+X(irr, M4)                                      1.8            2          3.7
+X(irr, M5)                                      1.7          2.2          3.7
+X(irr, M6)                                      1.7          2.2          3.7
+X(riv, M1)                                     -INF           -0          2.1
+X(riv, M2)                                     -INF           -0            2
+X(riv, M3)                                     -INF           -0          1.9
+X(riv, M4)                                     -INF           -0            2
+X(riv, M5)                                     -INF           -0          2.2
+X(riv, M6)                                     -INF           -0          2.2
+VPROFIT                                        -INF            1         +INF
+ 
+ 
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- EQU PROFIT          .         .         .        1.000      
+---- EQU IRES_MASS~    -7.000    -7.000    -7.000    -3.700      
+
+  PROFIT  Total profit ($) and objective function value
+  IRES_MASSBAL  Initial reservoir mass balance (units of water)
+
+---- EQU RESERVE_MASSBAL  Reservoir mass balance (units of water)
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M2    -2.000    -2.000    -2.000    -3.700      
+M3    -3.000    -3.000    -3.000    -3.700      
+M4    -4.000    -4.000    -4.000    -3.700      
+M5    -3.000    -3.000    -3.000    -3.700      
+M6    -2.000    -2.000    -2.000    -3.700      
+
+---- EQU DIVERT_MASSBAL  Mass balance at diversion point B (units of water)
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1      .         .         .       -2.100      
+M2      .         .         .       -2.000      
+M3      .         .         .       -1.900      
+M4      .         .         .       -2.000      
+M5      .         .         .       -2.200      
+M6      .         .         .       -2.200      
+
+---- EQU FLOW_RIVER  Minimum flow requirement in river (units of water)
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1     1.000     1.000     +INF     -2.100      
+M2     1.000     1.000     +INF     -2.000      
+M3     1.000     1.000     +INF     -1.900      
+M4     1.000     1.000     +INF     -2.000      
+M5     1.000     1.000     +INF     -2.200      
+M6     1.000     1.000     +INF     -2.200      
+
+---- EQU RESERVE_STORAGE  Reservoir net change in storage (units of water)
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1     5.000     5.000     +INF     -3.700      
+M2     5.000     5.000     +INF       .         
+M3     5.000     5.000     +INF       .         
+M4     5.000     5.000     +INF       .         
+M5     5.000     5.000     +INF       .         
+M6     5.000     5.000     +INF       .         
+
+---- EQU TURBINE_CAP  Hydropower capacity of reservoir turbines (units of water)
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1     -INF      1.000     4.000      .         
+M2     -INF      1.000     4.000      .         
+M3     -INF      2.000     4.000      .         
+M4     -INF      4.000     4.000     0.200      
+M5     -INF      4.000     4.000     0.500      
+M6     -INF      4.000     4.000     0.500      
+
+---- EQU RESERVE_CAP  Reservoir capacity (units of water)
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1     -INF      6.000     9.000      .         
+M2     -INF      7.000     9.000      .         
+M3     -INF      8.000     9.000      .         
+M4     -INF      8.000     9.000      .         
+M5     -INF      7.000     9.000      .         
+M6     -INF      5.000     9.000      .         
+
+---- VAR X  water allocations by site and month (units of water)
+
+          LOWER     LEVEL     UPPER    MARGINAL
+
+res.M1      .        6.000     +INF       .         
+res.M2      .        7.000     +INF       .         
+res.M3      .        8.000     +INF       .         
+res.M4      .        8.000     +INF       .         
+res.M5      .        7.000     +INF       .         
+res.M6      .        5.000     +INF       .         
+sp .M1      .         .        +INF     -1.600      
+sp .M2      .         .        +INF     -1.700      
+sp .M3      .         .        +INF     -1.800      
+sp .M4      .         .        +INF     -1.700      
+sp .M5      .         .        +INF     -1.500      
+sp .M6      .         .        +INF     -1.500      
+hyd.M1      .        1.000     +INF       .         
+hyd.M2      .        1.000     +INF       .         
+hyd.M3      .        2.000     +INF       .         
+hyd.M4      .        4.000     +INF       .         
+hyd.M5      .        4.000     +INF       .         
+hyd.M6      .        4.000     +INF       .         
+irr.M1      .         .        +INF     -1.100      
+irr.M2      .         .        +INF     -0.800      
+irr.M3      .        1.000     +INF       .         
+irr.M4      .        3.000     +INF       .         
+irr.M5      .        3.000     +INF       .         
+irr.M6      .        3.000     +INF       .         
+riv.M1      .        1.000     +INF       .         
+riv.M2      .        1.000     +INF       .         
+riv.M3      .        1.000     +INF       .         
+riv.M4      .        1.000     +INF       .         
+riv.M5      .        1.000     +INF       .         
+riv.M6      .        1.000     +INF       .         
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- VAR VPROFIT        -INF     51.600     +INF       .         
+
+  VPROFIT  total profit ($)
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.156 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G200622/0001AP-GEN
+      Utah State University, Utah Water Research Laboratory      DC7087
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 
+           5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 R
+           eservoir\JTW-HW4.gms
+Output     C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 
+           5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Outpu
+           t\JTW-HW4.lst

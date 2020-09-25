@@ -1,0 +1,70 @@
+
+--- Job JTW-HW4.gms Start 09/25/20 13:20:29 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\32\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW-HW4.gms"
+    PageWidth 80
+    PageSize 0
+    PageContr 3
+    Action CE
+    ScrDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\225a\"
+    SysDir C:\GAMS\32\
+    WorkDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\"
+    LogOption 3
+    DFormat 0
+    TFormat 0
+    ErrorLog 99
+    IDE 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G200622/0001AP-GEN
+          Utah State University, Utah Water Research Laboratory      DC7087
+          C:\GAMS\32\gamslice.txt
+--- Starting compilation
+--- JTW-HW4.gms(113) 3 Mb
+--- Starting execution: elapsed 0:00:00.101
+--- JTW-HW4.gms(104) 4 Mb
+--- Generating LP model RES
+--- JTW-HW4.gms(106) 4 Mb
+---   37 rows  31 columns  84 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.150
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading parameter(s) from "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\cplex.opt"
+>>  objrng all
+>>  rhsrng all
+Finished reading from "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\cplex.opt"
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 0
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+Tried aggregator 1 time.
+LP Presolve eliminated 25 rows and 7 columns.
+Reduced LP has 12 rows, 24 columns, and 41 nonzeros.
+Presolve time = 0.03 sec. (0.03 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual infeasibility =             9.500000
+Iteration:    11   Dual objective     =            66.200000
+LP status(1): optimal
+Cplex Time: 0.03sec (det. 0.06 ticks)
+
+Optimal solution found.
+Objective :          51.600000
+
+RHS ranging...
+Objective ranging...
+--- Reading solution for model RES
+--- Executing after solve: elapsed 0:00:00.251
+--- JTW-HW4.gms(109) 4 Mb
+--- GDX File C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW4.gdx
+*** Status: Normal completion
+--- Job JTW-HW4.gms Stop 09/25/20 13:20:29 elapsed 0:00:00.273
