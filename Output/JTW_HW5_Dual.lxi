@@ -1,0 +1,24 @@
+B 3 C o m p i l a t i o n
+B 206 Equation Listing    SOLVE DUAL Using LP From line 173
+D 209 REDCOST
+D 226 D_Xres
+D 238 D_XresF
+D 244 D_Xsp
+D 255 D_Xhyd
+D 272 D_Xirr
+D 283 D_Xriv
+B 295 Column Listing      SOLVE DUAL Using LP From line 173
+E 298 Y
+E 321 VRC_DUAL
+B 334 Model Statistics    SOLVE DUAL Using LP From line 173
+B 347 Solution Report     SOLVE DUAL Using LP From line 173
+F 462 REDCOST
+F 473 D_Xres
+F 486 D_XresF
+F 490 D_Xsp
+F 501 D_Xhyd
+F 512 D_Xirr
+F 523 D_Xriv
+G 534 Y
+G 572 VRC_DUAL
+B 585 E x e c u t i o n

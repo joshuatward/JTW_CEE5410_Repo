@@ -1,0 +1,15 @@
+B 3 C o m p i l a t i o n
+B 78 Equation Listing    SOLVE ChevyModel Using NLP From line 60
+D 81 ObjFun
+B 89 Column Listing      SOLVE ChevyModel Using NLP From line 60
+E 92 X
+E 103 Z
+B 111 Model Statistics    SOLVE ChevyModel Using NLP From line 60
+B 126 Solution Report     SOLVE ChevyModel Using NLP From line 60
+F 171 ObjFun
+G 175 X
+G 184 Z
+B 195 E x e c u t i o n
+I 195 X
+I 202 Z
+I 205 XStart

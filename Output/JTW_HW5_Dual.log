@@ -1,9 +1,9 @@
 
---- Job JTW-HW4.gms Start 10/04/20 22:37:57 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
+--- Job JTW_HW5_Dual.gms Start 10/04/20 22:55:33 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\GAMS\32\gmsprmNT.txt
 --- GAMS Parameters defined
-    Input "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW-HW4.gms"
+    Input "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_Dual.gms"
     PageWidth 80
     PageSize 0
     PageContr 3
@@ -21,13 +21,13 @@ Licensee: Small MUD - 5 User License                     G200622/0001AP-GEN
           Utah State University, Utah Water Research Laboratory      DC7087
           C:\GAMS\32\gamslice.txt
 --- Starting compilation
---- JTW-HW4.gms(113) 3 Mb
---- Starting execution: elapsed 0:00:00.108
---- JTW-HW4.gms(104) 4 Mb
---- Generating LP model RES
---- JTW-HW4.gms(106) 4 Mb
----   37 rows  31 columns  84 non-zeroes
---- Executing CPLEX (Solvelink=2): elapsed 0:00:00.279
+--- JTW_HW5_Dual.gms(176) 3 Mb
+--- Starting execution: elapsed 0:00:00.112
+--- JTW_HW5_Dual.gms(169) 4 Mb
+--- Generating LP model DUAL
+--- JTW_HW5_Dual.gms(173) 4 Mb
+---   36 rows  32 columns  97 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.188
 
 IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
 --- GAMS/Cplex Link licensed for continuous and discrete problems.
@@ -45,26 +45,31 @@ Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
 CPXPARAM_Advance                                 0
 CPXPARAM_Threads                                 1
 CPXPARAM_Parallel                                1
-Tried aggregator 1 time.
-LP Presolve eliminated 25 rows and 7 columns.
-Reduced LP has 12 rows, 24 columns, and 41 nonzeros.
-Presolve time = 0.00 sec. (0.03 ticks)
-Initializing dual steep norms . . .
+Bound infeasibility column 'Y(M1.div_mb)'.
+Presolve time = 0.00 sec. (0.00 ticks)
+LP status(3): infeasible
+Cplex Time: 0.00sec (det. 0.00 ticks)
+Rerunning with presolve turned off and solving with LPMETHOD=1
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 2
+CPXPARAM_Preprocessing_Presolve                  0
+CPXPARAM_LPMethod                                1
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
 
 Iteration log . . .
-Iteration:     1   Dual infeasibility =             9.500000
-Iteration:    11   Dual objective     =            66.200000
-LP status(1): optimal
-Cplex Time: 0.00sec (det. 0.06 ticks)
+Iteration:     1    Infeasibility =            16.268886
+LP status(3): infeasible
+Cplex Time: 0.00sec (det. 0.03 ticks)
 
-Optimal solution found.
-Objective :          51.600000
-
+Model has been proven infeasible.
 RHS ranging...
 Objective ranging...
---- Reading solution for model RES
---- Executing after solve: elapsed 0:00:00.396
---- JTW-HW4.gms(109) 4 Mb
---- GDX File C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW4.gdx
+CPLEX Error  1260: Sensitivity analysis not available for current status.
+CPLEX Error  1260: Sensitivity analysis not available for current status.
+--- Reading solution for model DUAL
+--- Executing after solve: elapsed 0:00:00.445
+--- JTW_HW5_Dual.gms(176) 4 Mb
+--- GDX File C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW5_DUAL.gdx
 *** Status: Normal completion
---- Job JTW-HW4.gms Stop 10/04/20 22:37:58 elapsed 0:00:00.430
+--- Job JTW_HW5_Dual.gms Stop 10/04/20 22:55:33 elapsed 0:00:00.498

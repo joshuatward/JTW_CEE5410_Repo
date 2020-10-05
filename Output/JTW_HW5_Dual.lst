@@ -1,0 +1,603 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:55:33 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+      CEE 5410 - Water Resources Systems Analysis
+      Dual Formation of a Reservoir optimization problem for HW5
+       
+      THE PROBLEM:
+       
+      A reservoir must maintain 5 units of water of storage at the end
+      of an irrigation period. A water manager must decide how much to release t
+      hrough
+      the turbines, how much to retain in the reservoir, and how much to irrigat
+      e a
+      large area of farmland while maintaining a flow of 1 unit in the river at 
+      the
+      end of the system. Data are as follows:
+       
+      Month    Inflow Units    Hydro Benefits ($/unit) Irr. Benefits ($/Unit)
+      1        2               1.6                     1.0
+      2        2               1.7                     1.2
+      3        3               1.8                     1.9
+      4        4               1.9                     2.0
+      5        5               2.0                     2.2
+      5        6               2.0                     2.2
+       
+      The optimization depends on both the storage location and time (month scal
+      e)
+      Decision Variables
+      VRes(t) - Storage volume of the reservoir (Units), for all t
+      VSpill - Volume released via the spillway (Units), for all t
+      VTurb - Volume released via the hydropower turbines (Units), for all t
+      VIrr - Volume diverted to irrigated farmland (Units), for all t
+      VRiver - Volume over the course of each month left in the river (Units), f
+      or all t
+       
+      Objective Function
+      Primal - Maximize benefits derived from hydropower and irrigation
+      Dual   - Minimize costs per resource
+       
+      THE SOLUTION:
+      Uses General Algebraic Modeling System to Solve this Linear Program
+       
+      Joshua T Ward
+      joshua.timothy.ward@aggiemail.usu.edu / joshua.ward@usu.edu
+       
+      October 5, 2020
+  41   
+  42  *Define the sets containing decision variables and resource constraints
+  43  SETS L Water allocation locations in reservoir system
+  44           /res "Reservoir", sp "Spillway", hyd "Hydropower", irr "Irrigatio
+      n", riv "River"/
+  45       t Month of period of interest
+  46           /M1, M2, M3, M4, M5, M6/
+  47       con Constraints for dual formulation
+  48           /res_mb "Reservoir Mass Balance", div_mb "Diversion Point Mass Ba
+      lance", riv_flo "Minimum streamflow",
+  49            hyd_flo "Turbine Capacity", res_cap "Reservoir Capacity", res_su
+      s "Storage Net Increase"/;
+  50   
+  51  * Define the bounds of the constraint inequalities
+  52  SCALAR
+  53           BEG_STO Beginning reservoir storage at start of model period (uni
+      ts of water) / 5 /
+  54           RES_MAX Maximum reservoir capacity (units of water) / 9 /
+  55           TUR_MAX Maximum flow through the turbines (units of water) / 4 /
+  56           RIV_MIN Minimum flow required in the river after diversion point 
+      B (units of water) / 1 /;
+  57   
+  58  *Define the parameters and coefficients
+  59  PARAMETERS
+  60           I(t) Inflow values in each month t (units of water)
+  61           /M1 2, M2 2, M3 3, M4 4, M5 3, M6 2/
+  62   
+      TABLE
+      c(L, t) Objective function coefficients at location L in month t ($ per un
+      it)
+               M1      M2      M3      M4      M5      M6
+      hyd      1.6     1.7     1.8     1.9     2.0     2.0
+      irr      1.0     1.2     1.9     2.0     2.2     2.2
+      res      0       0       0       0       0       0
+      sp       0       0       0       0       0       0
+      riv      0       0       0       0       0       0       ;
+  73   
+  74  TABLE cT(t, L) RHS Constraints in the dual form ($ per unit)
+  75           hyd     irr     res     sp      riv
+  76  M1       1.6     1.0     0       0       0
+  77  M2       1.7     1.2     0       0       0
+  78  M3       1.8     1.9     0       0       0
+  79  M4       1.9     2.0     0       0       0
+  80  M5       2.0     2.2     0       0       0
+  81  M6       2.0     2.2     0       0       0       ;
+  82   
+  83  TABLE BP_Con(t, con) B (RHS) vector on constraints in the primal form
+  84           res_mb  div_mb  riv_flo hyd_flo res_cap res_sus
+  85  M1       7       0       1       4       9       0
+  86  M2       2       0       1       4       9       0
+  87  M3       3       0       1       4       9       0
+  88  M4       4       0       1       4       9       0
+  89  M5       5       0       1       4       9       0
+  90  M6       6       0       1       4       9       5;
+  91   
+              X is the vector of decision variables in the primal formulation
+              Y is the vector of decision variables in the dual formulation (red
+      uced costs of the primal)
+       
+  97   
+  98  VARIABLES
+  99  *         X(L, t) water allocations by site and month (units of water)
+ 100            Y(t, con) reduced costs by month and constraint ($ per unit of w
+      ater)
+ 101   
+ 102  *         VPROFIT total profit in primal form ($)
+ 103            VRC_DUAL total rediced cost in dual form ($);
+ 104   
+ 105  *Define non-negativity constraints on the variables
+ 106  * POSITIVE VARIABLES X;
+ 107  POSITIVE VARIABLES Y;
+ 108   
+      First block: Define the equations used in the primal
+      Second block: Define the equations used in the dual
+      Third block: Build the constraint equations used in the primal
+      Fourth block: Build the constraint equations used in the dual
+ 115  EQUATIONS
+               PROFIT Total profit ($) and objective function value of primal
+       
+               IRES_MASSBAL Initial reservoir mass balance (units of water)
+               RESERVE_MASSBAL(t) Reservoir mass balance (units of water)
+               DIVERT_MASSBAL(t) Mass balance at diversion point B (units of wat
+      er)
+               FLOW_RIVER(t) Minimum flow requirement in river (units of water)
+               RESERVE_STORAGE(t) Reservoir net change in storage (units of wate
+      r)
+               TURBINE_CAP(t) Hydropower capacity of reservoir turbines (units o
+      f water)
+               RESERVE_CAP(t) Reservoir capacity (units of water)
+ 127           REDCOST(t) Reduced cost ($) and objective function value of dual
+ 128   
+ 129           D_Xres(t) Reduced cost constraints for reservoir mass balance var
+      iables (M1-M5)
+ 130           D_XresF Reduced cost constraints for reservoir mass balance varia
+      ble (M6)
+ 131           D_Xsp(t) Reduced cost constraints for spillway releases for all t
+ 132           D_Xhyd(t) Reduced cost constraints for hydropower releases for al
+      l t
+ 133           D_Xirr(t) Reduced cost constraints for irrigation releases for al
+      l t
+ 134           D_Xriv(t) Reduced cost constraints for streamflow levels for all 
+      t  ;
+ 135   
+ 136  * Build the constraint equations for the primal
+      Primal Decision Variables are Dual Constraints
+       
+      IRES_MASSBAL..                           BEG_STO+I("M1")-X("sp","M1")-X("h
+      yd","M1") =E= X("res","M1");
+      RESERVE_MASSBAL(t)$(ORD(t) ge 2 )..      I(t)+X("res",t-1)-X("sp",t)-X("hy
+      d", t) =E= X("res",t);
+      DIVERT_MASSBAL(t) ..                     X("hyd",t)+X("sp",t)-X("irr",t)-X
+      ("riv",t) =E= 0;
+      FLOW_RIVER(t) ..                         X("riv",t) =G= RIV_MIN;
+      RESERVE_STORAGE(t) ..                    X("res","M6") =G= BEG_STO;
+      TURBINE_CAP(t) ..                        X("hyd", t) =L= TUR_MAX;
+      RESERVE_CAP(t) ..                        X("res",t) =L= RES_MAX;
+ 148   
+ 149  * Build the constraint equations for the dual
+ 150  * Dual constraints =
+ 151   
+ 152    D_Xres(t)$(ORD(t) le 5 )..             Y(t, "res_mb")-Y(t+1, "res_mb")+Y
+      (t, "res_cap") =G= cT(t, "res");
+ 153    D_XresF..                              Y("M6", "res_mb")+Y("M6", "res_ca
+      p")+Y("M6","res_sus") =G= cT("M6", "res");
+ 154    D_Xhyd(t)..                            Y(t, "res_mb")+Y(t, "div_mb")+Y(t
+      , "hyd_flo") =G= cT(t, "hyd");
+ 155    D_Xsp(t)..                             Y(t, "res_mb")+Y(t, "div_mb") =G=
+       cT(t, "sp");
+ 156    D_Xirr(t)..                           -Y(t, "div_mb") =G= cT(t, "irr");
+ 157    D_Xriv(t)..                           -Y(t, "div_mb") + Y(t, "riv_flo") 
+      =G= cT(t, "riv");
+ 158   
+ 159  * Build the objective function
+ 160  * PROFIT..                     VPROFIT =E= SUM(t, c("hyd",t)*X("hyd",t)+c(
+      "irr",t)*X("irr",t)) ;
+ 161    REDCOST(t)..                 VRC_DUAL =E= SUM(con, Y(t, con)*BP_Con(t, c
+      on)) ;
+ 162   
+ 163   
+ 164  * Include all equations in the model
+ 165  * MODEL PRIMAL /ALL/;
+ 166   
+ 167  MODEL DUAL /ALL/ ;
+ 168   
+ 169  DUAL.OptFile=1;
+ 170   
+ 171  * Solve the model
+ 172  * SOLVE RES USING LP MAXIMIZING VPROFIT;
+ 173  SOLVE DUAL USING LP MINIMIZING VRC_DUAL;
+ 174   
+ 175  * Save a gdx file for easier viewing of the tables
+ 176  EXECUTE_UNLOAD "JTW_HW5_DUAL.gdx";
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  32.2.0 rc62c018 WEX-WEI
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:55:33 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE DUAL Using LP From line 173
+
+
+---- REDCOST  =E=  Reduced cost ($) and objective function value of dual
+
+REDCOST(M1)..  - 7*Y(M1,res_mb) - Y(M1,riv_flo) - 4*Y(M1,hyd_flo)
+     
+      - 9*Y(M1,res_cap) + VRC_DUAL =E= 0 ; (LHS = 0)
+     
+REDCOST(M2)..  - 2*Y(M2,res_mb) - Y(M2,riv_flo) - 4*Y(M2,hyd_flo)
+     
+      - 9*Y(M2,res_cap) + VRC_DUAL =E= 0 ; (LHS = 0)
+     
+REDCOST(M3)..  - 3*Y(M3,res_mb) - Y(M3,riv_flo) - 4*Y(M3,hyd_flo)
+     
+      - 9*Y(M3,res_cap) + VRC_DUAL =E= 0 ; (LHS = 0)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+
+---- D_Xres  =G=  Reduced cost constraints for reservoir mass balance variables 
+                  (M1-M5)
+
+D_Xres(M1)..  Y(M1,res_mb) + Y(M1,res_cap) - Y(M2,res_mb) =G= 0 ; (LHS = 0)
+     
+D_Xres(M2)..  Y(M2,res_mb) + Y(M2,res_cap) - Y(M3,res_mb) =G= 0 ; (LHS = 0)
+     
+D_Xres(M3)..  Y(M3,res_mb) + Y(M3,res_cap) - Y(M4,res_mb) =G= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- D_XresF  =G=  Reduced cost constraints for reservoir mass balance variable 
+                   (M6)
+
+D_XresF..  Y(M6,res_mb) + Y(M6,res_cap) + Y(M6,res_sus) =G= 0 ; (LHS = 0)
+     
+
+---- D_Xsp  =G=  Reduced cost constraints for spillway releases for all t
+
+D_Xsp(M1)..  Y(M1,res_mb) + Y(M1,div_mb) =G= 0 ; (LHS = 0)
+     
+D_Xsp(M2)..  Y(M2,res_mb) + Y(M2,div_mb) =G= 0 ; (LHS = 0)
+     
+D_Xsp(M3)..  Y(M3,res_mb) + Y(M3,div_mb) =G= 0 ; (LHS = 0)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+
+---- D_Xhyd  =G=  Reduced cost constraints for hydropower releases for all t
+
+D_Xhyd(M1)..  Y(M1,res_mb) + Y(M1,div_mb) + Y(M1,hyd_flo) =G= 1.6 ;
+     
+      (LHS = 0, INFES = 1.6 ****)
+     
+D_Xhyd(M2)..  Y(M2,res_mb) + Y(M2,div_mb) + Y(M2,hyd_flo) =G= 1.7 ;
+     
+      (LHS = 0, INFES = 1.7 ****)
+     
+D_Xhyd(M3)..  Y(M3,res_mb) + Y(M3,div_mb) + Y(M3,hyd_flo) =G= 1.8 ;
+     
+      (LHS = 0, INFES = 1.8 ****)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+
+---- D_Xirr  =G=  Reduced cost constraints for irrigation releases for all t
+
+D_Xirr(M1)..  - Y(M1,div_mb) =G= 1 ; (LHS = 0, INFES = 1 ****)
+     
+D_Xirr(M2)..  - Y(M2,div_mb) =G= 1.2 ; (LHS = 0, INFES = 1.2 ****)
+     
+D_Xirr(M3)..  - Y(M3,div_mb) =G= 1.9 ; (LHS = 0, INFES = 1.9 ****)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+
+---- D_Xriv  =G=  Reduced cost constraints for streamflow levels for all t
+
+D_Xriv(M1)..  - Y(M1,div_mb) + Y(M1,riv_flo) =G= 0 ; (LHS = 0)
+     
+D_Xriv(M2)..  - Y(M2,div_mb) + Y(M2,riv_flo) =G= 0 ; (LHS = 0)
+     
+D_Xriv(M3)..  - Y(M3,div_mb) + Y(M3,riv_flo) =G= 0 ; (LHS = 0)
+     
+REMAINING 3 ENTRIES SKIPPED
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:55:33 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE DUAL Using LP From line 173
+
+
+---- Y  reduced costs by month and constraint ($ per unit of water)
+
+Y(M1,res_mb)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -7       REDCOST(M1)
+        1       D_Xres(M1)
+        1       D_Xsp(M1)
+        1       D_Xhyd(M1)
+
+Y(M1,div_mb)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       D_Xsp(M1)
+        1       D_Xhyd(M1)
+       -1       D_Xirr(M1)
+       -1       D_Xriv(M1)
+
+Y(M1,riv_flo)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       REDCOST(M1)
+        1       D_Xriv(M1)
+
+REMAINING 28 ENTRIES SKIPPED
+
+---- VRC_DUAL  total rediced cost in dual form ($)
+
+VRC_DUAL
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       REDCOST(M1)
+        1       REDCOST(M2)
+        1       REDCOST(M3)
+        1       REDCOST(M4)
+        1       REDCOST(M5)
+        1       REDCOST(M6)
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:55:33 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE DUAL Using LP From line 173
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           7     SINGLE EQUATIONS           36
+BLOCKS OF VARIABLES           2     SINGLE VARIABLES           32
+NON ZERO ELEMENTS            97
+
+
+GENERATION TIME      =        0.079 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:55:33 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE DUAL Using LP From line 173
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   DUAL                OBJECTIVE  VRC_DUAL
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  173
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      4 Infeasible                
+**** OBJECTIVE VALUE               12.1000
+
+ RESOURCE USAGE, LIMIT          0.110 10000000000.000
+ ITERATION COUNT, LIMIT         6    2147483647
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading parameter(s) from "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWor
+k\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\
+                                                               Output\cplex.opt"
+>>  objrng all
+>>  rhsrng all
+Finished reading from "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fa
+ll 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Outp
+                                                                   ut\cplex.opt"
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+LP status(3): infeasible
+Cplex Time: 0.00sec (det. 0.00 ticks)
+Rerunning with presolve turned off and solving with LPMETHOD=1
+LP status(3): infeasible
+Cplex Time: 0.00sec (det. 0.03 ticks)
+Model has been proven infeasible.
+  
+ 
+EQUATION NAME                                 LOWER      CURRENT        UPPER
+-------------                                 -----      -------        -----
+REDCOST(M1)                                    -0.1            0         63.9
+REDCOST(M2)                                   -12.3            0          7.8
+REDCOST(M3)                                    -INF            0          4.1
+REDCOST(M4)                                   -0.18            0          3.6
+REDCOST(M5)                                    -INF            0          0.1
+REDCOST(M6)                                  -2.367            0          0.1
+D_Xres(M1)                                 -0.01111            0          7.1
+D_Xres(M2)                                   -1.367            0       0.8667
+D_Xres(M3)                                     -INF            0        1.222
+D_Xres(M4)                                    -0.02            0          0.4
+D_Xres(M5)                                     -INF            0       0.3944
+D_XresF                                        -INF            0        2.017
+D_Xsp(M1)                                      -INF            0          1.6
+D_Xsp(M2)                                      -INF            0          1.7
+D_Xsp(M3)                                      -INF            0        2.667
+D_Xsp(M4)                                      -INF            0          1.9
+D_Xsp(M5)                                      -INF            0          2.4
+D_Xsp(M6)                                      -INF            0        2.017
+D_Xhyd(M1)                                        0          1.6         1.65
+D_Xhyd(M2)                                    1.689          1.7          8.8
+D_Xhyd(M3)                                     -INF          1.8        2.667
+D_Xhyd(M4)                                     1.18          1.9        1.936
+D_Xhyd(M5)                                     -INF            2          2.4
+D_Xhyd(M6)                                     -INF            2        2.017
+D_Xirr(M1)                                        0            1         +INF
+D_Xirr(M2)                                        0          1.2         +INF
+D_Xirr(M3)                                        0          1.9         +INF
+D_Xirr(M4)                                        0            2         +INF
+D_Xirr(M5)                                        0          2.2         +INF
+D_Xirr(M6)                                        0          2.2         +INF
+D_Xriv(M1)                                     -INF            0            0
+D_Xriv(M2)                                     -INF            0            0
+D_Xriv(M3)                                     -INF            0            0
+D_Xriv(M4)                                     -INF            0            0
+D_Xriv(M5)                                     -INF            0            0
+D_Xriv(M6)                                     -INF            0            0
+  
+ 
+VARIABLE NAME                                 LOWER      CURRENT        UPPER
+-------------                                 -----      -------        -----
+Y(M1, res_mb)                            1.122e-311            0            0
+Y(M1, div_mb)                            2.964e-323            0   1.288e-231
+Y(M1, riv_flo)                                    0            0            0
+Y(M1, hyd_flo)                                    0            0            0
+Y(M1, res_cap)                                    0            0            0
+Y(M2, res_mb)                                     0            0            0
+Y(M2, div_mb)                                     0            0            0
+Y(M2, riv_flo)                                    0            0            0
+Y(M2, hyd_flo)                                    0            0            0
+Y(M2, res_cap)                                    0            0            0
+Y(M3, res_mb)                                     0            0            0
+Y(M3, div_mb)                                     0            0            0
+Y(M3, riv_flo)                                    0            0            0
+Y(M3, hyd_flo)                                    0            0            0
+Y(M3, res_cap)                                    0            0            0
+Y(M4, res_mb)                                     0            0            0
+Y(M4, div_mb)                                     0            0            0
+Y(M4, riv_flo)                                    0            0            0
+Y(M4, hyd_flo)                                    0            0            0
+Y(M4, res_cap)                                    0            0            0
+Y(M5, res_mb)                                     0            0            0
+Y(M5, div_mb)                                     0            0            0
+Y(M5, riv_flo)                                    0            0            0
+Y(M5, hyd_flo)                                    0            0            0
+Y(M5, res_cap)                                    0            0            0
+Y(M6, res_mb)                                     0            0            0
+Y(M6, div_mb)                                     0            0            0
+Y(M6, riv_flo)                                    0            0            0
+Y(M6, hyd_flo)                                    0            0            0
+Y(M6, res_cap)                                    0            0            0
+Y(M6, res_sus)                                    0            0            0
+VRC_DUAL                                          0            1            0
+ 
+ 
+
+---- EQU REDCOST  Reduced cost ($) and objective function value of dual
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1      .         .         .         EPS       
+M2      .         .         .         EPS       
+M3      .         .         .         EPS       
+M4      .         .         .         EPS       
+M5      .         .         .         EPS       
+M6      .         .         .         EPS       
+
+---- EQU D_Xres  Reduced cost constraints for reservoir mass balance variables (
+                 M1-M5)
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1      .         .        +INF       EPS       
+M2      .         .        +INF       EPS       
+M3      .        1.222     +INF       .         
+M4      .         .        +INF       EPS       
+M5      .        0.394     +INF       .         
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- EQU D_XresF         .        2.017     +INF       .         
+
+  D_XresF  Reduced cost constraints for reservoir mass balance variable (M6)
+
+---- EQU D_Xsp  Reduced cost constraints for spillway releases for all t
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1      .        1.600     +INF       .         
+M2      .        1.700     +INF       .         
+M3      .        2.667     +INF       .         
+M4      .        1.900     +INF       .         
+M5      .        2.400     +INF       .         
+M6      .        2.017     +INF       .         
+
+---- EQU D_Xhyd  Reduced cost constraints for hydropower releases for all t
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1     1.600     1.600     +INF       EPS       
+M2     1.700     1.700     +INF       EPS       
+M3     1.800     2.667     +INF       .         
+M4     1.900     1.900     +INF       EPS       
+M5     2.000     2.400     +INF       .         
+M6     2.000     2.017     +INF       .         
+
+---- EQU D_Xirr  Reduced cost constraints for irrigation releases for all t
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1     1.000      .        +INF      1.000 INFES
+M2     1.200      .        +INF      1.000 INFES
+M3     1.900      .        +INF      1.000 INFES
+M4     2.000      .        +INF      1.000 INFES
+M5     2.200      .        +INF      1.000 INFES
+M6     2.200      .        +INF      1.000 INFES
+
+---- EQU D_Xriv  Reduced cost constraints for streamflow levels for all t
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+M1      .         .        +INF       .         
+M2      .         .        +INF       .         
+M3      .         .        +INF       .         
+M4      .         .        +INF       .         
+M5      .         .        +INF       .         
+M6      .         .        +INF       .         
+
+---- VAR Y  reduced costs by month and constraint ($ per unit of water)
+
+              LOWER     LEVEL     UPPER    MARGINAL
+
+M1.res_mb       .        1.600     +INF       .         
+M1.div_mb       .         .        +INF      1.000      
+M1.riv_flo      .         .        +INF       EPS       
+M1.hyd_flo      .         .        +INF       EPS       
+M1.res_cap      .        0.100     +INF       .         
+M2.res_mb       .        1.700     +INF       .         
+M2.div_mb       .         .        +INF      1.000      
+M2.riv_flo      .         .        +INF       EPS       
+M2.hyd_flo      .         .        +INF       EPS       
+M2.res_cap      .        0.967     +INF       .         
+M3.res_mb       .        2.667     +INF       .         
+M3.div_mb       .         .        +INF      1.000      
+M3.riv_flo      .         .        +INF       EPS       
+M3.hyd_flo      .         .        +INF       EPS       
+M3.res_cap      .        0.456     +INF       .         
+M4.res_mb       .        1.900     +INF       .         
+M4.div_mb       .         .        +INF      1.000      
+M4.riv_flo      .         .        +INF       EPS       
+M4.hyd_flo      .         .        +INF       EPS       
+M4.res_cap      .        0.500     +INF       .         
+M5.res_mb       .        2.400     +INF       .         
+M5.div_mb       .         .        +INF      1.000      
+M5.riv_flo      .         .        +INF       EPS       
+M5.hyd_flo      .         .        +INF       EPS       
+M5.res_cap      .        0.011     +INF       .         
+M6.res_mb       .        2.017     +INF       .         
+M6.div_mb       .         .        +INF      1.000      
+M6.riv_flo      .         .        +INF       EPS       
+M6.hyd_flo      .         .        +INF       EPS       
+M6.res_cap      .         .        +INF       EPS       
+M6.res_sus      .         .        +INF       EPS       
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- VAR VRC_DUAL       -INF     12.100     +INF       .         
+
+  VRC_DUAL  total rediced cost in dual form ($)
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             6 INFEASIBLE (INFES)
+                    SUM     10.500
+                    MAX      2.200
+                    MEAN     1.750
+                             0  UNBOUNDED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:55:33 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.344 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G200622/0001AP-GEN
+      Utah State University, Utah Water Research Laboratory      DC7087
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 
+           5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 D
+           ual and Integer\JTW_HW5_Dual.gms
+Output     C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 
+           5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Outpu
+           t\JTW_HW5_Dual.lst

@@ -1,5 +1,5 @@
 
---- Job Ex6-3-integer.gms Start 09/25/20 13:21:04 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
+--- Job Ex6-3-integer.gms Start 09/25/20 18:57:47 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
 --- Applying:
     C:\GAMS\32\gmsprmNT.txt
 --- GAMS Parameters defined
@@ -22,12 +22,12 @@ Licensee: Small MUD - 5 User License                     G200622/0001AP-GEN
           C:\GAMS\32\gamslice.txt
 --- Starting compilation
 --- Ex6-3-integer.gms(80) 3 Mb
---- Starting execution: elapsed 0:00:00.077
+--- Starting execution: elapsed 0:00:00.114
 --- Generating MIP model WatSupplyRelaxed
 --- Ex6-3-integer.gms(73) 4 Mb
 ---   10 rows  5 columns  18 non-zeroes
 ---   2 discrete-columns
---- Executing CPLEX (Solvelink=2): elapsed 0:00:00.127
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.301
 
 IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
 --- GAMS/Cplex Link licensed for continuous and discrete problems.
@@ -58,7 +58,7 @@ Sequential b&c:
                           ------------
 Total (root+branch&cut) =    0.00 sec. (0.01 ticks)
 MIP status(101): integer optimal solution
-Cplex Time: 0.03sec (det. 0.01 ticks)
+Cplex Time: 0.00sec (det. 0.01 ticks)
 Fixing integer variables, and solving final LP...
 Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
 CPXPARAM_Advance                                 2
@@ -76,7 +76,7 @@ Presolve time = 0.00 sec. (0.00 ticks)
 Iteration      Dual Objective            In Variable           Out Variable
      1          395000.000000                  X(tp)       MeetDemand slack
 Fixed MIP status(1): optimal
-Cplex Time: 0.02sec (det. 0.01 ticks)
+Cplex Time: 0.01sec (det. 0.01 ticks)
 
 Proven optimal solution.
 
@@ -88,7 +88,7 @@ Absolute gap:            0.000000
 Relative gap:            0.000000
 
 --- Reading solution for model WatSupplyRelaxed
---- Executing after solve: elapsed 0:00:00.234
+--- Executing after solve: elapsed 0:00:00.445
 --- Ex6-3-integer.gms(78) 4 Mb
 --- GDX File C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\Ex6-3-integer.gdx
 --- Ex6-3-integer.gms(80) 4 Mb
@@ -96,4 +96,4 @@ GDX2XLS          32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
 Output file: C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\Ex6-3-integer.xlsx
 (Created backup file)
 *** Status: Normal completion
---- Job Ex6-3-integer.gms Stop 09/25/20 13:21:13 elapsed 0:00:08.209
+--- Job Ex6-3-integer.gms Stop 09/25/20 18:57:59 elapsed 0:00:11.496

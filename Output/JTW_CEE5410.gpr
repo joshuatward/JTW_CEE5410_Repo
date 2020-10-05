@@ -111,9 +111,6 @@ Order=1
 Decim=7
 PlaneRownr=-1
 
-[RP:EX2-1DUAL]
-1=
-
 [GDXDISP: b Par 1]
 PlaneDim=0
 RowDim=1
@@ -270,27 +267,47 @@ Order=1
 Decim=7
 PlaneRownr=-1
 
-[RP:JTW-HW4]
+[RP:EX6-3-RELAXED]
+1=
+
+[RP:UNTITLED_1]
+1=
+
+[RP:JTW_HW5]
 1=
 
 [RP:EX6-3-INTEGER]
 1=
 
-[MRUFILES]
-1=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\Ex6-3-integer.lst
-2=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\Ex6-3-integer.gms
-3=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW_HW4.gdx
-4=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW-HW4.gms
-5=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW_HW4_IncreaseStreamflow.lst
-6=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW-HW4.lst
-7=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW3.lst
+[RP:JTW-HW4]
+1=
+
+[RP:JTW_HW5_IPMODEL]
+1=
 
 [OPENWINDOW_1]
-FILE0=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW4.gdx
-FILE1=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW-HW4.lst
-FILE2=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW-HW4.lst
 MAXIM=1
-TOP=62
-LEFT=43
+TOP=0
+LEFT=748
 HEIGHT=856
 WIDTH=748
+
+[RP:EX2-1DUAL]
+1=
+
+[RP:JTW_HW5_DUAL]
+1=
+
+[RP:EXCHEVYFUNCTION]
+1=
+
+[MRUFILES]
+1=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW5_Dual.lst
+2=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\ExChevyFunction.lst
+3=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_Dual.gms
+4=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\ExChevyFunction.gms
+5=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\Ex2-1Dual.gms
+6=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW-HW4.lst
+7=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW5_IPmodel.lst
+8=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_IPmodel.gms
+9=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW-HW4.gms

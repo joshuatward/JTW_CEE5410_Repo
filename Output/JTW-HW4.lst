@@ -1,4 +1,4 @@
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 1
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:37:57 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -131,7 +131,7 @@ C o m p i l a t i o n
 
 
 COMPILATION TIME     =        0.000 SECONDS      3 MB  32.2.0 rc62c018 WEX-WEI
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 2
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:37:57 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Equation Listing    SOLVE RES Using LP From line 106
 
@@ -230,7 +230,7 @@ RESERVE_CAP(M3)..  X(res,M3) =L= 9 ; (LHS = 0)
      
 REMAINING 3 ENTRIES SKIPPED
 
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 3
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:37:57 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Column Listing      SOLVE RES Using LP From line 106
 
@@ -263,7 +263,7 @@ VPROFIT
                 (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
         1       PROFIT
 
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 4
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:37:57 Page 4
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Model Statistics    SOLVE RES Using LP From line 106
 
@@ -275,8 +275,8 @@ BLOCKS OF VARIABLES           2     SINGLE VARIABLES           31
 NON ZERO ELEMENTS            84
 
 
-GENERATION TIME      =        0.047 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 5
+GENERATION TIME      =        0.172 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:37:57 Page 5
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Solution Report     SOLVE RES Using LP From line 106
 
@@ -291,7 +291,7 @@ Solution Report     SOLVE RES Using LP From line 106
 **** MODEL STATUS      1 Optimal                   
 **** OBJECTIVE VALUE               51.6000
 
- RESOURCE USAGE, LIMIT          0.031 10000000000.000
+ RESOURCE USAGE, LIMIT          0.016 10000000000.000
  ITERATION COUNT, LIMIT        18    2147483647
 
 IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
@@ -309,7 +309,7 @@ ll 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Outp
 Space for names approximately 0.00 Mb
 Use option 'names no' to turn use of names off
 LP status(1): optimal
-Cplex Time: 0.03sec (det. 0.06 ticks)
+Cplex Time: 0.00sec (det. 0.06 ticks)
 Optimal solution found.
 Objective :          51.600000
 
@@ -510,12 +510,12 @@ riv.M6      .        1.000     +INF       .
 **** REPORT SUMMARY :        0     NONOPT
                              0 INFEASIBLE
                              0  UNBOUNDED
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:20:29 Page 6
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 22:37:57 Page 6
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 E x e c u t i o n
 
 
-EXECUTION TIME       =        0.156 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+EXECUTION TIME       =        0.297 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
 
 
 USER: Small MUD - 5 User License                     G200622/0001AP-GEN

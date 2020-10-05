@@ -1,0 +1,415 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 18:54:52 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+      CEE 5410 - Water Resources Systems Analysis
+      Dual Formation of a Reservoir optimization problem for HW5
+       
+      THE PROBLEM:
+       
+      A FARMER PLANS TO DEVELOP WATER FORIRRIGATION. HE IS CONSIDERING TWO POSSI
+      BLE
+      SOURCES OF WATER: A GRAVITY DIVERSION FROM A POSSIBLE RESERVOIR WITH TWO
+      ALTERNATIVE CPACITIES AND/OR A PUMP FROM A LOWER RIVER DIVERSION (REFER TO
+      FIGURE 7.3). BETWEEN THE RESERVOIR AND PUMP SITE THE RIVER BASE FLOW INCRE
+      ASES
+      BY 2 ACFT/DAY DUE TO GROUNDWATER DRAINAGE INTO THE RIVER. IGNORE LOSSES FR
+      OM
+      THE RESERVOIR. THE RIVER FLOW INTO THE RESERVOIR AND THE FARMER'S DEMAND D
+      URING
+      EACH OF THE TWO SIX-MONTH SEASONS OF THE YEAR ARE GIVEN IN TABLE 7.5. REVE
+      NUE
+      IS ESTIMATED AT $300 PER YEAR PER ACRE IRRIGATED.
+       
+      SEASONAL FLOW AND DEMAND
+       
+      SEASON   RIVER INFLOW Qt (acft)  IRRIGATION DEMAND (acft/acre)
+      1        600                     1.0
+      2        200                     3.0
+       
+      ASSUME THERE ARE ONLY TWO POSSIBLE SIZES OF RESERVOIR: A HIGH DAM THAT HAS
+      CAPACITY OF 700 acft OR A LOW DAM WITH CAPACITY OF 300 acft. THE CAPITATL 
+      COSTS
+      ARE $10,000/YR AND $6,000/YR FOR THE HIGH AND LOW DAMS, RESPECTIVELY (NO
+      OPERATING COST). THE PUMP CAPACITY IS FIXED AT 2.2 acft/day WITH A CAPITAL
+       COST
+      (IF BUILT) OF $8,000/YR AND OPERATING COST OF $20/acft.
+       
+      DEVELOP A MIXED INTEGER PROGRAMMING MODEL FOR THIS PROBLEM AND SOLVE.
+       
+      THE SOLUTION:
+      Uses General Algebraic Modeling System to Solve this Linear Program
+       
+      Joshua T Ward
+      joshua.timothy.ward@aggiemail.usu.edu / joshua.ward@usu.edu
+       
+      October 5, 2020
+  38  * Define the problem dimensions with sets
+  39   
+  40  SETS     t season /t1, t2/
+  41           l Location /res "Reservoir", far "Farm Diversion", riv "River Rel
+      ease", pmp "Pumped from River"/
+  42           s Size of reservoir built /nb "No-Build",low "Low Dam", hi "High 
+      Dam"/;
+  43   
+  44  PARAMETERS    Inflow(t) River inflow (ac-ft) by season t /t1 600, t2 200/
+  45                I_Dem(t) Irrigation demand (ac-ft per acre) by season t /t1 
+      1.0, t2 3.0/
+  46                R_Cap_Cost(s) Capital costs per build alternative ($ per yea
+      r) /nb 0, low 6000, hi 10000/
+  47                R_Op_Cost(s) Operating costs per build alternative ($ per ye
+      ar) /nb 0, low 0, hi 0/
+  48                R_Cap(s) Reservoir capacity (acft) /nb 0, low 300, hi 700/;
+  49   
+  50  SCALAR
+  51           P_Cap Capacity of pump (ac-ft per day) / 2.2 /
+  52           P_Op_Cost Annual operating costs of pump ($ per ac-ft) / 20 /
+  53           P_Cap_Cost Annual capital cost of building the pump ($ per year) 
+      / 8000 /
+  54           B Annual (per year) benefits derived from irrigation ($ per acre)
+       / 300 /
+  55           GW_Drain Drainage from groundwater to river (ac-ft) / 2.0 /;
+  56   
+  57  VARIABLES I(s) Binary decision multiplier for size of infrastructure proje
+      ct
+  58            J Binary decision multiplier for decision to install pump or not
+  59            X(l, t) Water allocations (ac-ft) by location
+  60            A Area of irrigated farmland (acre)
+  61            VPROFIT Value of net benefits ($);
+  62   
+  63  BINARY VARIABLES I, J;
+  64  POSITIVE VARIABLES X, A;
+  65   
+  66  * Define and build constraint equations
+  67  EQUATIONS
+  68           RES_CAP(t) Reservoir storage must be less than capacity in all ti
+      me steps
+  69           MB_RES_S1 Mass balance in the reservoir must be observed in seaso
+      n 1
+  70           MB_RES_S2 Mass balance in the reservoir must be observed in seaso
+      n 2
+  71           MB_RIVER(t) Pump cannot extract more water than is available in t
+      he river
+  72           IRR_DEM(t) Area irrigated by water cannot exceed supply for all s
+      easons
+  73           BLD_DEC Only one build decision is permitted for the reservoir
+  74           PMP_CAP(t) Pump will be used at or below capacity for all seasons
+  75   
+  76           PROFIT Net benefits ($ Earned - $ Cost);
+  77   
+  78  * Build the constraint equations
+  79  RES_CAP(t)..                X("res", t) =L= SUM(s, R_Cap(s)*I(s));
+  80  MB_RES_S1..              X("res", "t1") =E= Inflow("t1") + 0 - X("riv", "t
+      1") - X("far", "t1");
+  81  MB_RES_S2..              X("res", "t2") =E= Inflow("t2") + X("res", "t1") 
+      - X("riv", "t2")-X("far", "t2");
+  82  MB_RIVER(t)..               X("riv", t) + GW_DRAIN*365/2- X("pmp", t) =G= 
+      0;
+  83  IRR_DEM(t)..                A =L= (X("far", t) + X("pmp", t))/I_Dem(t);
+  84  BLD_DEC..                SUM(s,I(s)) =E= 1;
+  85  PMP_CAP(t)..                X("pmp", t) =L= J * P_Cap * 365/2;
+  86   
+  87  * Build the objective function
+  88  PROFIT..                 VPROFIT =E= A * B - SUM(s, R_Cap_Cost(s)*I(s)) - 
+      J *P_Cap_Cost - A * P_Op_Cost
+  89   
+  90  MODEL RES_MODEL /ALL/;
+  91   
+  92  SOLVE RES_MODEL USING MIP MAXIMIZING VPROFIT;
+  93   
+  94  * RES_MODEL.OptFile=1;
+  95   
+  96  EXECUTE_UNLOAD "JTW_HW5_IP.gdx";
+
+
+COMPILATION TIME     =        0.016 SECONDS      3 MB  32.2.0 rc62c018 WEX-WEI
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 18:54:52 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE RES_MODEL Using MIP From line 92
+
+
+---- RES_CAP  =L=  Reservoir storage must be less than capacity in all time step
+                   s
+
+RES_CAP(t1)..  - 300*I(low) - 700*I(hi) + X(res,t1) =L= 0 ; (LHS = 0)
+     
+RES_CAP(t2)..  - 300*I(low) - 700*I(hi) + X(res,t2) =L= 0 ; (LHS = 0)
+     
+
+---- MB_RES_S1  =E=  Mass balance in the reservoir must be observed in season 1
+
+MB_RES_S1..  X(res,t1) + X(far,t1) + X(riv,t1) =E= 600 ;
+     
+      (LHS = 0, INFES = 600 ****)
+     
+
+---- MB_RES_S2  =E=  Mass balance in the reservoir must be observed in season 2
+
+MB_RES_S2..  - X(res,t1) + X(res,t2) + X(far,t2) + X(riv,t2) =E= 200 ;
+     
+      (LHS = 0, INFES = 200 ****)
+     
+
+---- MB_RIVER  =G=  Pump cannot extract more water than is available in the rive
+                    r
+
+MB_RIVER(t1)..  X(riv,t1) - X(pmp,t1) =G= -365 ; (LHS = 0)
+     
+MB_RIVER(t2)..  X(riv,t2) - X(pmp,t2) =G= -365 ; (LHS = 0)
+     
+
+---- IRR_DEM  =L=  Area irrigated by water cannot exceed supply for all seasons
+
+IRR_DEM(t1)..  - X(far,t1) - X(pmp,t1) + A =L= 0 ; (LHS = 0)
+     
+IRR_DEM(t2)..  - 0.333333333333333*X(far,t2) - 0.333333333333333*X(pmp,t2) + A
+      =L= 0 ; (LHS = 0)
+     
+
+---- BLD_DEC  =E=  Only one build decision is permitted for the reservoir
+
+BLD_DEC..  I(nb) + I(low) + I(hi) =E= 1 ; (LHS = 0, INFES = 1 ****)
+     
+
+---- PMP_CAP  =L=  Pump will be used at or below capacity for all seasons
+
+PMP_CAP(t1)..  - 401.5*J + X(pmp,t1) =L= 0 ; (LHS = 0)
+     
+PMP_CAP(t2)..  - 401.5*J + X(pmp,t2) =L= 0 ; (LHS = 0)
+     
+
+---- PROFIT  =E=  Net benefits ($ Earned - $ Cost)
+
+PROFIT..  6000*I(low) + 10000*I(hi) + 8000*J - 280*A + VPROFIT =E= 0 ; (LHS = 0)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 18:54:52 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE RES_MODEL Using MIP From line 92
+
+
+---- I  Binary decision multiplier for size of infrastructure project
+
+I(nb)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+        1       BLD_DEC
+
+I(low)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+     -300       RES_CAP(t1)
+     -300       RES_CAP(t2)
+        1       BLD_DEC
+     6000       PROFIT
+
+I(hi)
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+     -700       RES_CAP(t1)
+     -700       RES_CAP(t2)
+        1       BLD_DEC
+    10000       PROFIT
+
+
+---- J  Binary decision multiplier for decision to install pump or not
+
+J
+                (.LO, .L, .UP, .M = 0, 0, 1, 0)
+     -401.5     PMP_CAP(t1)
+     -401.5     PMP_CAP(t2)
+     8000       PROFIT
+
+
+---- X  Water allocations (ac-ft) by location
+
+X(res,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       RES_CAP(t1)
+        1       MB_RES_S1
+       -1       MB_RES_S2
+
+X(res,t2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       RES_CAP(t2)
+        1       MB_RES_S2
+
+X(far,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       MB_RES_S1
+       -1       IRR_DEM(t1)
+
+REMAINING 5 ENTRIES SKIPPED
+
+---- A  Area of irrigated farmland (acre)
+
+A
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       IRR_DEM(t1)
+        1       IRR_DEM(t2)
+     -280       PROFIT
+
+
+---- VPROFIT  Value of net benefits ($)
+
+VPROFIT
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       PROFIT
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 18:54:52 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE RES_MODEL Using MIP From line 92
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           12
+BLOCKS OF VARIABLES           5     SINGLE VARIABLES           14
+NON ZERO ELEMENTS            35     DISCRETE VARIABLES          4
+
+
+GENERATION TIME      =        0.156 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 18:54:52 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE RES_MODEL Using MIP From line 92
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   RES_MODEL           OBJECTIVE  VPROFIT
+     TYPE    MIP                 DIRECTION  MAXIMIZE
+     SOLVER  CPLEX               FROM LINE  92
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      1 Optimal                   
+**** OBJECTIVE VALUE            89100.0000
+
+ RESOURCE USAGE, LIMIT          0.078 10000000000.000
+ ITERATION COUNT, LIMIT        17    2147483647
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+MIP status(101): integer optimal solution
+Cplex Time: 0.05sec (det. 0.14 ticks)
+Fixing integer variables, and solving final LP...
+Fixed MIP status(1): optimal
+Cplex Time: 0.00sec (det. 0.02 ticks)
+Proven optimal solution.
+
+MIP Solution:        89100.000000    (11 iterations, 0 nodes)
+Final Solve:         89100.000000    (6 iterations)
+
+Best possible:       89100.000000
+Absolute gap:            0.000000
+Relative gap:            0.000000
+
+
+---- EQU RES_CAP  Reservoir storage must be less than capacity in all time steps
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+t1     -INF   -117.500      .         .         
+t2     -INF   -700.000      .         .         
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- EQU MB_RES_S1    600.000   600.000   600.000    70.000      
+---- EQU MB_RES_S2    200.000   200.000   200.000    70.000      
+
+  MB_RES_S1  Mass balance in the reservoir must be observed in season 1
+  MB_RES_S2  Mass balance in the reservoir must be observed in season 2
+
+---- EQU MB_RIVER  Pump cannot extract more water than is available in the river
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+t1  -365.000  -365.000     +INF    -70.000      
+t2  -365.000  -365.000     +INF    -70.000      
+
+---- EQU IRR_DEM  Area irrigated by water cannot exceed supply for all seasons
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+t1     -INF       .         .       70.000      
+t2     -INF       .         .      210.000      
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- EQU BLD_DEC        1.000     1.000     1.000      .         
+
+  BLD_DEC  Only one build decision is permitted for the reservoir
+
+---- EQU PMP_CAP  Pump will be used at or below capacity for all seasons
+
+      LOWER     LEVEL     UPPER    MARGINAL
+
+t1     -INF    -36.500      .         .         
+t2     -INF    -36.500      .         .         
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- EQU PROFIT          .         .         .        1.000      
+
+  PROFIT  Net benefits ($ Earned - $ Cost)
+
+---- VAR I  Binary decision multiplier for size of infrastructure project
+
+       LOWER     LEVEL     UPPER    MARGINAL
+
+nb       .         .        1.000      EPS       
+low      .         .        1.000 -6000.000      
+hi       .        1.000     1.000 -1.000E+4      
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- VAR J               .        1.000     1.000 -8000.000      
+
+  J  Binary decision multiplier for decision to install pump or not
+
+---- VAR X  Water allocations (ac-ft) by location
+
+          LOWER     LEVEL     UPPER    MARGINAL
+
+res.t1      .      582.500     +INF       .         
+res.t2      .         .        +INF    -70.000      
+far.t1      .       17.500     +INF       .         
+far.t2      .      782.500     +INF       .         
+riv.t1      .         .        +INF       EPS       
+riv.t2      .         .        +INF       EPS       
+pmp.t1      .      365.000     +INF       .         
+pmp.t2      .      365.000     +INF       .         
+
+                       LOWER     LEVEL     UPPER    MARGINAL
+
+---- VAR A               .      382.500     +INF       .         
+---- VAR VPROFIT        -INF  89100.000     +INF       .         
+
+  A  Area of irrigated farmland (acre)
+  VPROFIT  Value of net benefits ($)
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 10/04/20 18:54:52 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.375 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G200622/0001AP-GEN
+      Utah State University, Utah Water Research Laboratory      DC7087
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 
+           5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 D
+           ual and Integer\JTW_HW5_IPmodel.gms
+Output     C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 
+           5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Outpu
+           t\JTW_HW5_IPmodel.lst

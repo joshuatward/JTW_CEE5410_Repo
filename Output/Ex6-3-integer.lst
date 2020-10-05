@@ -1,4 +1,4 @@
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:21:04 Page 1
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 18:57:47 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -91,7 +91,7 @@ C o m p i l a t i o n
 
 
 COMPILATION TIME     =        0.000 SECONDS      3 MB  32.2.0 rc62c018 WEX-WEI
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:21:04 Page 2
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 18:57:47 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Equation Listing    SOLVE WatSupplyRelaxed Using MIP From line 73
 
@@ -135,7 +135,7 @@ IntLowBound(tp)..  I(tp) =G= 1 ; (LHS = 0, INFES = 1 ****)
      
 IntLowBound(wc)..  I(wc) =G= 1 ; (LHS = 0, INFES = 1 ****)
      
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:21:04 Page 3
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 18:57:47 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Column Listing      SOLVE WatSupplyRelaxed Using MIP From line 73
 
@@ -181,7 +181,7 @@ TCOST
                 (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
         1       COST
 
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:21:04 Page 4
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 18:57:47 Page 4
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Model Statistics    SOLVE WatSupplyRelaxed Using MIP From line 73
 
@@ -193,8 +193,8 @@ BLOCKS OF VARIABLES           3     SINGLE VARIABLES            5
 NON ZERO ELEMENTS            18     DISCRETE VARIABLES          2
 
 
-GENERATION TIME      =        0.063 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:21:04 Page 5
+GENERATION TIME      =        0.188 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 18:57:47 Page 5
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 Solution Report     SOLVE WatSupplyRelaxed Using MIP From line 73
 
@@ -209,7 +209,7 @@ Solution Report     SOLVE WatSupplyRelaxed Using MIP From line 73
 **** MODEL STATUS      1 Optimal                   
 **** OBJECTIVE VALUE           395000.0000
 
- RESOURCE USAGE, LIMIT          0.063 10000000000.000
+ RESOURCE USAGE, LIMIT          0.031 10000000000.000
  ITERATION COUNT, LIMIT         1    2147483647
 
 IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
@@ -219,10 +219,10 @@ Cplex 12.10.0.0
 Space for names approximately 0.00 Mb
 Use option 'names no' to turn use of names off
 MIP status(101): integer optimal solution
-Cplex Time: 0.03sec (det. 0.01 ticks)
+Cplex Time: 0.00sec (det. 0.01 ticks)
 Fixing integer variables, and solving final LP...
 Fixed MIP status(1): optimal
-Cplex Time: 0.02sec (det. 0.01 ticks)
+Cplex Time: 0.01sec (det. 0.01 ticks)
 Proven optimal solution.
 
 MIP Solution:       395000.000000    (0 iterations, 0 nodes)
@@ -297,7 +297,7 @@ wc      .     1000.000     +INF       .
 **** REPORT SUMMARY :        0     NONOPT
                              0 INFEASIBLE
                              0  UNBOUNDED
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 13:21:04 Page 6
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 WEX-WEI x86 64bit/MS Windows - 09/25/20 18:57:47 Page 6
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 E x e c u t i o n
 
@@ -319,7 +319,7 @@ tp 1.000,    wc 1.000
                                                            y actions ($)
 
 
-EXECUTION TIME       =        8.109 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
+EXECUTION TIME       =       11.375 SECONDS      4 MB  32.2.0 rc62c018 WEX-WEI
 
 
 USER: Small MUD - 5 User License                     G200622/0001AP-GEN
