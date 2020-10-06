@@ -54,7 +54,7 @@ SCALAR
          B Annual (per year) benefits derived from irrigation ($ per acre) / 300 /
          GW_Drain Drainage from groundwater to river (ac-ft) / 2.0 /;
 
-VARIABLES I(s) Binary decision multiplier for size of infrastructure project
+VARIABLES I(s) Binary decision multiplier for size of reservoir project
           J Binary decision multiplier for decision to install pump or not
           X(l, t) Water allocations (ac-ft) by location and season
           A Area of irrigated farmland (acre)

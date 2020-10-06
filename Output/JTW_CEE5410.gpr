@@ -282,23 +282,46 @@ PlaneRownr=-1
 [RP:JTW-HW4]
 1=
 
-[RP:JTW_HW5_IPMODEL]
-1=
-
-[OPENWINDOW_1]
-MAXIM=1
-TOP=0
-LEFT=748
-HEIGHT=856
-WIDTH=748
-
-[RP:EX2-1DUAL]
-1=
-
 [RP:JTW_HW5_DUAL]
 1=
 
 [RP:EXCHEVYFUNCTION]
+1=
+
+[RP:EX2-1DUAL]
+1=
+
+[RP:JTW_HW5_IPMODEL]
+1=
+
+[GDXDISP: Y Var 1]
+PlaneDim=0
+RowDim=1
+Squeeze=1
+SqTrail0=0
+Order=1,2
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: VREDCOST Var 0]
+PlaneDim=0
+RowDim=0
+Squeeze=1
+SqTrail0=0
+Order=1
+Decim=7
+PlaneRownr=-1
+
+[GDXDISP: RES_CONS_DUAL Equ 1]
+PlaneDim=0
+RowDim=1
+Squeeze=1
+SqTrail0=0
+Order=1,2
+Decim=7
+PlaneRownr=-1
+
+[RP:JTW_HW5_P2_3_DUAL]
 1=
 
 [MRUFILES]
@@ -306,8 +329,28 @@ WIDTH=748
 2=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\ExChevyFunction.lst
 3=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_Dual.gms
 4=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\ExChevyFunction.gms
-5=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\Ex2-1Dual.gms
-6=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW-HW4.lst
-7=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW5_IPmodel.lst
-8=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_IPmodel.gms
-9=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW-HW4.gms
+5=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW-HW4.lst
+6=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW4 Reservoir\JTW-HW4.gms
+
+[OPENWINDOW_1]
+FILE0=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\Ex2-1Dual.gms
+FILE1=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\Ex2-1Dual.gms
+MAXIM=0
+TOP=-31
+LEFT=-8
+HEIGHT=659
+WIDTH=1024
+
+[OPENWINDOW_2]
+FILE0=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Class Examples\CEE-6410-Rosenberg\Lectures\Ex2-1Dual.gms
+FILE1=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_IPmodel.gms
+FILE2=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_P2_3_DUAL.gms
+FILE3=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW5_IPmodel.lst
+FILE4=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW5_P2_3_DUAL.gdx
+FILE5=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW5_P2_3_DUAL.lst
+FILE6=C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_IPmodel.gms
+MAXIM=0
+TOP=65
+LEFT=230
+HEIGHT=976
+WIDTH=958
