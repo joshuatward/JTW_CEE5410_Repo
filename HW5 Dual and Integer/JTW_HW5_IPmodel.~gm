@@ -56,7 +56,7 @@ SCALAR
 
 VARIABLES I(s) Binary decision multiplier for size of infrastructure project
           J Binary decision multiplier for decision to install pump or not
-          X(l, t) Water allocations (ac-ft) by location
+          X(l, t) Water allocations (ac-ft) by location and season
           A Area of irrigated farmland (acre)
           VPROFIT Value of net benefits ($);
 
@@ -77,15 +77,15 @@ EQUATIONS
 
 * Build the constraint equations
 RES_CAP(t)..                X("res", t) =L= SUM(s, R_Cap(s)*I(s));
-MB_RES_S1..              X("res", "t1") =E= Inflow("t1") + 0 - X("riv", "t1") - X("far", "t1");
-MB_RES_S2..              X("res", "t2") =E= Inflow("t2") + X("res", "t1") - X("riv", "t2")-X("far", "t2");
-MB_RIVER(t)..               X("riv", t) + GW_DRAIN*365/2- X("pmp", t) =G= 0;
+MB_RES_S1..                 X("res", "t1") =E= Inflow("t1") + 0 - X("riv", "t1") - X("far", "t1");
+MB_RES_S2..                 X("res", "t2") =E= Inflow("t2") + X("res", "t1") - X("riv", "t2")-X("far", "t2");
+MB_RIVER(t)..               X("riv", t) + GW_DRAIN*365/2 - X("pmp", t) =G= 0;
 IRR_DEM(t)..                A =L= (X("far", t) + X("pmp", t))/I_Dem(t);
-BLD_DEC..                SUM(s,I(s)) =E= 1;
+BLD_DEC..                   SUM(s,I(s)) =E= 1;
 PMP_CAP(t)..                X("pmp", t) =L= J * P_Cap * 365/2;
 
 * Build the objective function
-PROFIT..                 VPROFIT =E= A * B - SUM(s, R_Cap_Cost(s)*I(s)) - J *P_Cap_Cost - A * P_Op_Cost
+PROFIT..                 VPROFIT =E= A * B - SUM(s, R_Cap_Cost(s)*I(s)) - J * P_Cap_Cost - SUM(t, X("pmp", t) * P_Op_Cost)
 
 MODEL RES_MODEL /ALL/;
 

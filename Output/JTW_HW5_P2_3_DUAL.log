@@ -1,0 +1,98 @@
+
+--- Job JTW_HW5_P2_3_DUAL.gms Start 10/05/20 14:29:48 32.2.0 rc62c018 WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\32\gmsprmNT.txt
+--- GAMS Parameters defined
+    Input "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\HW5 Dual and Integer\JTW_HW5_P2_3_DUAL.gms"
+    PageWidth 80
+    PageSize 0
+    PageContr 3
+    Action CE
+    ScrDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\225a\"
+    SysDir C:\GAMS\32\
+    WorkDir "C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\"
+    LogOption 3
+    DFormat 0
+    TFormat 0
+    ErrorLog 99
+    IDE 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G200622/0001AP-GEN
+          Utah State University, Utah Water Research Laboratory      DC7087
+          C:\GAMS\32\gamslice.txt
+--- Starting compilation
+--- JTW_HW5_P2_3_DUAL.gms(91) 3 Mb
+--- Starting execution: elapsed 0:00:00.107
+--- Generating LP model PLANT_PRIM
+--- JTW_HW5_P2_3_DUAL.gms(86) 4 Mb
+---   5 rows  3 columns  10 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.170
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 0
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+Tried aggregator 1 time.
+LP Presolve eliminated 2 rows and 1 columns.
+Reduced LP has 3 rows, 2 columns, and 6 nonzeros.
+Presolve time = 0.00 sec. (0.00 ticks)
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1  I            0.000000               X(Grain)RES_CONSTRAIN(W7) slack
+     2         1213333.333333                 X(Hay)RES_CONSTRAIN(W6) slack
+     3         1160000.000000RES_CONSTRAIN(W6) slackRES_CONSTRAIN(Lan slack
+LP status(1): optimal
+Cplex Time: 0.02sec (det. 0.01 ticks)
+
+Optimal solution found.
+Objective :     1160000.000000
+
+--- Reading solution for model PLANT_PRIM
+--- Executing after solve: elapsed 0:00:00.265
+--- Generating LP model PLANT_DUAL
+--- JTW_HW5_P2_3_DUAL.gms(87) 4 Mb
+---   3 rows  5 columns  12 non-zeroes
+--- Executing CPLEX (Solvelink=2): elapsed 0:00:00.294
+
+IBM ILOG CPLEX   32.2.0 rc62c018 Released Aug 26, 2020 WEI x86 64bit/MS Window
+--- GAMS/Cplex Link licensed for continuous and discrete problems.
+Cplex 12.10.0.0
+
+Reading data...
+Starting Cplex...
+Space for names approximately 0.00 Mb
+Use option 'names no' to turn use of names off
+Version identifier: 12.10.0.0 | 2019-11-26 | 843d4de2ae
+CPXPARAM_Advance                                 0
+CPXPARAM_Simplex_Display                         2
+CPXPARAM_Threads                                 1
+CPXPARAM_Parallel                                1
+Tried aggregator 1 time.
+LP Presolve eliminated 1 rows and 1 columns.
+Reduced LP has 2 rows, 4 columns, and 7 nonzeros.
+Presolve time = 0.00 sec. (0.00 ticks)
+
+Iteration      Dual Objective            In Variable           Out Variable
+     1         1080000.000000                  Y(W7)RES_CONS_DUAL(Gra slack
+     2         1160000.000000                Y(Land)RES_CONS_DUAL(Hay slack
+LP status(1): optimal
+Cplex Time: 0.05sec (det. 0.01 ticks)
+
+Optimal solution found.
+Objective :     1160000.000000
+
+--- Reading solution for model PLANT_DUAL
+--- Executing after solve: elapsed 0:00:00.431
+--- JTW_HW5_P2_3_DUAL.gms(91) 4 Mb
+--- GDX File C:\Users\joshu\OneDrive - aggiemail.usu.edu\CourseWork\Fall 2020\CEE 5410 Water Systems Analysis\GitHub Respository\JTW_CEE5410_Repo\Output\JTW_HW5_P2_3_DUAL.gdx
+*** Status: Normal completion
+--- Job JTW_HW5_P2_3_DUAL.gms Stop 10/05/20 14:29:48 elapsed 0:00:00.470
